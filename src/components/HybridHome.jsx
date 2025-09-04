@@ -1,13 +1,7 @@
-// ------------------------------------------------------------
-// src/Hybridhome.jsx (header polish + minor a11y, theme intact)
+// src/Hybridhome.jsx
 import React, { useState } from "react";
-import { Menu } from "lucide-react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { ReactTyped } from "react-typed";
 
-import Hero from "./Hero";
-
-import RevealOnScroll from "./RevealOnScroll";
+import Hero from "./Hero";               // ⬅ swap to "./Hero" if using your old hero
 import Pricing from "./Pricing";
 import Testimonials from "./Testimonials";
 import PlatformsStrip from "./PlatformsStrip";
@@ -17,154 +11,171 @@ import FAQ from "./FAQ";
 import ScrollProgressBar from "./ScrollProgressBar";
 import Hybridfooter from "./Hybridfooter";
 import GridOverlay from "./GridOverlay";
-
 import ChartSection from "./ChartSection";
-import MarketSummary from "./MarketSummary";     // improved
-import BlogSection from "./BlogSection";
+import MarketSummary from "./MarketSummary";
 import ShootingStars from "./ShootingStars";
 import heroBg from "../assets/space-trading.png";
 
-const BLUE = { 900:"#00072D", 800:"#051650", 700:"#0A2472", 600:"#123499", 500:"#1A43BF" };
-const fadeUp = { hidden:{opacity:0,y:26}, show:{opacity:1,y:0,transition:{duration:.6,ease:"easeOut"}} };
-const stagger = { hidden:{}, show:{transition:{staggerChildren:.12, delayChildren:.05}} };
+import BackgroundFX from "./BackgroundFX";
 
-export default function Hybridhome(){
-  const { scrollY } = useScroll();
-  const scale = useTransform(scrollY, [0,300], [1,0.965]);
-  const ls    = useTransform(scrollY, [0,300], ["-0.02em","0em"]);
+
+
+import Sidebar, { SidebarProvider, SidebarTrigger } from "./Sidebar";
+import TopNav from "./TopNav";
+
+import {
+  KPIStatsStrip,
+  SessionClocks,
+  TopMoversHeatmap,
+  SpreadsPanel,
+  EconomicCalendarLite,
+  StrategyIdeas,
+  RiskDisclosureBar,
+  TradingLifeBundle, // optional convenience
+} from "./TradingSections";
+
+
+export default function Hybridhome() {
   const [yearly, setYearly] = useState(true);
 
+  // keep links in-sync with section IDs below
+  const sidebarLinks = [
+    { label: "Markets", href: "#markets", kicker: "Forex · Crypto" },
+    { label: "Platforms", href: "#platforms", kicker: "Web · Mobile" },
+    { label: "How it works", href: "#how", kicker: "Overview" },
+    { label: "FAQ", href: "#faq", kicker: "Answers" },
+    // Add back if you re-enable Pricing section:
+    // { label: "Pricing", href: "#pricing", kicker: "Transparent" },
+  ];
+
   return (
-    <div id="top" className="min-h-screen flex flex-col bg-black">
-      <ScrollProgressBar />
-
-      <header className="fixed top-0 inset-x-0 z-50 border-b border-white/10 bg-transparent">
-  {/* Scrim + blur lives behind the content but keeps the image visible */}
-  <div className="absolute inset-0 pointer-events-none supports-[backdrop-filter]:backdrop-blur-xl bg-black/10" />
-  <div className="relative max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-    <div className="flex items-center gap-3">
-      <span
-        className="h-display text-[28px] font-bold tracking-tight"
-        style={{ color: BLUE[500] }}
-        aria-label="deprowebs"
-      >
-        deprowebs
-      </span>
-      
-    </div>
-    <div className="flex items-center gap-3">
-      <button
-        className="hidden sm:inline-flex px-5 py-2 rounded-xl font-semibold border-2 transition-colors duration-200 text-white"
-        style={{ borderColor: BLUE[500], background: "transparent" }}
-        onMouseEnter={(e)=>{ e.currentTarget.style.background = BLUE[500]; }}
-        onMouseLeave={(e)=>{ e.currentTarget.style.background = "transparent"; }}
-      >
-        Login
-      </button>
-      <button className="inline-flex sm:hidden p-2 rounded-lg border border-white/20 text-white" aria-label="Open menu">
-        <Menu size={22}/>
-      </button>
-    </div>
-  </div>
-</header>
+    <SidebarProvider>
+      <div id="top" className="min-h-screen flex flex-col bg-black">
+       <ScrollProgressBar />
+      <TopNav brand="deprowebs" /* logoSrc="/assets/logo.svg" if you have one */ />
 
 
-<Hero bgImage={heroBg} onPrimary={()=>{}} onSecondary={()=>{}} />
+        {/* Hero */}
+        <Hero bgImage={heroBg} onPrimary={() => {}} onSecondary={() => {}} />
 
-     {/* Market Summary section */}
-<section className="relative overflow-hidden">
-  <div className="absolute inset-0 z-0 bg-black" />
-  <div className="absolute inset-0 z-10 pointer-events-none opacity-80">
-    {/* switch to realistic night sky + white meteors */}
-    <ShootingStars theme="dark" sky="night" meteorTint="white" density={1} meteorEvery={3000} />
-  </div>
-  
-  <div className="relative z-30">
-    <MarketSummary demo theme="dark" />
+   <section className="relative overflow-hidden">
+  <BackgroundFX variant="conic-orb" speed={90} intensity={0.4} />
+  <div className="relative z-30 space-y-6 py-6">
+    <KPIStatsStrip />
+    <SessionClocks />
   </div>
 </section>
 
-      {/* LIGHT: Platforms (dark grid on top) */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 z-0 bg-white" />
-        <div className="relative z-30"><PlatformsStrip /></div>
-        <GridOverlay variant="dark" layer="above" density={32} speed={22} opacity={0.18} />
-      </section>
 
 
-      {/* DARK: How it works (white grid under content + micro-grid in cards) */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 z-0 bg-black" />
-       <div className="absolute inset-0 z-10 pointer-events-none opacity-80">
-    {/* switch to realistic night sky + white meteors */}
-    <ShootingStars theme="dark" sky="night" meteorTint="white" density={1} meteorEvery={3000} />
-  </div>
-        <div className="relative z-30">
-          <HowItWorks theme="dark" cardGrid="soft" animatedCardGrid />
-        </div>
-      </section>
-
-      {/* DARK: Ticker */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 z-0 bg-black" />
-        <GridOverlay variant="light" layer="under" density={32} speed={22} opacity={0.18} />
-        <div className="relative z-30"><TickerTape /></div>
-      </section>
-
-      {/* LIGHT: Pricing */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 z-0 bg-white" />
-        <div className="relative z-30"><Pricing yearly={yearly} onToggle={()=>setYearly(v=>!v)} /></div>
-        <GridOverlay variant="dark" layer="above" density={32} speed={22} opacity={0.18} />
-      </section>
-
-
-<section className="relative overflow-hidden">
-  <div className="absolute inset-0 z-0 bg-black" />
+<section id="markets" className="relative overflow-hidden">
+  <BackgroundFX variant="grid-pulse" speed={60} intensity={0.35} />
   <div className="absolute inset-0 z-10 pointer-events-none opacity-80">
-    {/* switch to realistic night sky + white meteors */}
     <ShootingStars theme="dark" sky="night" meteorTint="white" density={1} meteorEvery={3000} />
   </div>
-  
+  <div className="relative z-30 space-y-6">
+    <MarketSummary demo theme="dark" />
+    <TopMoversHeatmap />
+  </div>
+</section>
+
+
+
+
+
+        <section id="platforms" className="relative overflow-hidden">
+  <BackgroundFX variant="diagonal-sweep" theme="light" intensity={0.18} speed={40} />
+  <div className="relative z-30"><PlatformsStrip /></div>
+  <GridOverlay variant="dark" layer="above" density={32} speed={22} opacity={0.18} />
+</section>
+
+
+      <section id="how" className="relative overflow-hidden">
+  <BackgroundFX variant="radial-aurora" speed={70} intensity={0.35} />
+  <div className="absolute inset-0 z-10 pointer-events-none opacity-80">
+    <ShootingStars theme="dark" sky="night" meteorTint="white" density={1} meteorEvery={3000} />
+  </div>
+  <div className="relative z-30">
+    <HowItWorks theme="dark" cardGrid="soft" animatedCardGrid />
+  </div>
+</section>
+
+
+   <section className="relative overflow-hidden">
+  <BackgroundFX variant="diagonal-sweep" speed={50} intensity={0.28} />
+  <div className="relative z-30 py-6">
+    <SpreadsPanel />
+  </div>
+</section>
+
+
+       <section className="relative overflow-hidden">
+  <BackgroundFX variant="ring" speed={30} intensity={0.35} />
+  <GridOverlay variant="light" layer="under" density={32} speed={22} opacity={0.18} />
+  <div className="relative z-30"><TickerTape /></div>
+</section>
+
+
+ <section className="relative overflow-hidden">
+  <BackgroundFX variant="radial-aurora" speed={80} intensity={0.3} />
+  <div className="relative z-30 space-y-6 py-6">
+    <EconomicCalendarLite />
+    <StrategyIdeas />
+  </div>
+</section>
+
+
+
+        {/* ===== Pricing (light) — disabled for now ===== */}
+        {false && (
+          <section id="pricing" className="relative overflow-hidden">
+            <div className="absolute inset-0 z-0 bg-white" />
+            <div className="relative z-30">
+              <Pricing yearly={yearly} onToggle={() => setYearly(v => !v)} />
+            </div>
+            <GridOverlay variant="dark" layer="above" density={32} speed={22} opacity={0.18} />
+          </section>
+        )}
+
+       <section className="relative overflow-hidden">
+  <BackgroundFX variant="conic-orb" speed={70} intensity={0.35} />
+  <div className="absolute inset-0 z-10 pointer-events-none opacity-80">
+    <ShootingStars theme="dark" sky="night" meteorTint="white" density={1} meteorEvery={3000} />
+  </div>
   <div className="relative z-30">
     <ChartSection demo theme="dark" />
   </div>
 </section>
 
-    
 
- {/* ===== Blog (light) ===== */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 z-0 bg-white" />
-        <div className="relative z-30">
-          <BlogSection theme="light" />
-        </div>
-        <GridOverlay variant="dark" layer="above" density={32} speed={22} opacity={0.12} />
-      </section>
+       <section className="relative overflow-hidden">
+  <BackgroundFX variant="grid-pulse" speed={55} intensity={0.3} />
+  <GridOverlay variant="light" layer="above" density={32} speed={22} opacity={0.22} />
+  <div className="relative z-30"><Testimonials /></div>
+</section>
 
-      {/* DARK: Testimonials */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 z-0 bg-black" />
-        <GridOverlay variant="light" layer="above" density={32} speed={22} opacity={0.22} />
-        <div className="relative z-30"><Testimonials /></div>
-      </section>
 
-     
+    <section id="faq" className="relative overflow-hidden">
+  <BackgroundFX variant="diagonal-sweep" theme="light" intensity={0.14} speed={36} />
+  <div className="relative z-30"><FAQ /></div>
+  <GridOverlay variant="dark" layer="above" density={32} speed={22} opacity={0.12} />
+</section>
 
-      {/* LIGHT: FAQ */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 z-0 bg-white" />
-        <div className="relative z-30"><FAQ /></div>
-        <GridOverlay variant="dark" layer="above" density={32} speed={22} opacity={0.12} />
-      </section>
 
-      <Hybridfooter />
-    </div>
+
+<section className="relative overflow-hidden">
+  <BackgroundFX variant="noise-glow" intensity={0.35} />
+  <div className="relative z-30 py-6">
+    <RiskDisclosureBar />
+  </div>
+</section>
+
+
+        <Hybridfooter />
+
+        {/* Mount the sidebar last so it overlays everything */}
+        <Sidebar links={sidebarLinks} />
+      </div>
+    </SidebarProvider>
   );
 }
-
-
-// ------------------------------------------------------------
-// styles: keep your existing palette + utilities.
-// Optional micro-additions (if you want accessible-only text):
-// .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
