@@ -61,7 +61,7 @@ export default function Hybridhome() {
    <section className="relative overflow-hidden">
   <BackgroundFX variant="conic-orb" speed={90} intensity={0.4} />
   <div className="relative z-30 space-y-6 py-6">
-    <KPIStatsStrip />
+    
     <SessionClocks />
   </div>
 </section>
