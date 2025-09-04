@@ -67,18 +67,23 @@ export default function HeroClassicPro({
         />
       </div>
 
-      {/* Subtle animated grid overlay for trading vibe */}
-      <div
-        aria-hidden
-        className="absolute inset-0 z-0"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 0.1px)",
-          backgroundSize: "40px 40px",
-          animation: "grid-pan 24s linear infinite",
-          maskImage: "radial-gradient(60% 50% at 50% 35%, rgba(0,0,0,0.85), rgba(0,0,0,1))",
-        }}
-      />
+{/* Subtle animated grid overlay for trading vibe (lighter) */}
+<div
+  aria-hidden
+  className="absolute inset-0 z-0 pointer-events-none"
+  style={{
+    // ↓ reduce stripe opacity from .04 → .02
+    backgroundImage:
+      "linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px)",
+    backgroundSize: "40px 40px",
+    // optional global fade (keeps animation but softens a bit more)
+    opacity: 0.65,
+    animation: "grid-pan 24s linear infinite",
+    maskImage: "radial-gradient(60% 50% at 50% 35%, rgba(0,0,0,0.85), rgba(0,0,0,1))",
+  }}
+/>
+
+
 
       {/* top scrim for header contrast */}
       <div
