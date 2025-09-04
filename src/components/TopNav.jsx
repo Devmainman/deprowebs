@@ -2,12 +2,12 @@
 import React from "react";
 import { SidebarTrigger } from "./Sidebar";
 import { motion, useScroll, useTransform } from "framer-motion";
+import logo from "../assets/dpw.png"; // if this file lives in /src/components, use: ../assets/dpw.png
 
 const BLUE = { 900:"#00072D", 800:"#051650", 700:"#0A2472", 600:"#123499", 500:"#1A43BF" };
 
 export default function TopNav({
   brand = "deprowebs",
-  logoSrc = null,         // e.g. "/assets/logo.svg"
   href = "#top",
   onLogin = () => {},
 }) {
@@ -26,9 +26,7 @@ export default function TopNav({
       >
         {/* Left: brand / logo */}
         <a href={href} className="flex items-center gap-2" aria-label={brand}>
-          {logoSrc
-            ? <img src={logoSrc} alt={brand} className="h-7 w-auto" />
-            : <span className="h-display text-[22px] sm:text-[24px] font-bold tracking-tight" style={{ color: BLUE[500] }}>{brand}</span>}
+          <img src={logo} alt={brand} className="block h-10 w-auto select-none" />
         </a>
 
         {/* Right: Login + hamburger (side-by-side) */}

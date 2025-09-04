@@ -73,7 +73,7 @@ export default function HeroClassicPro({
         className="absolute inset-0 z-0"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px)",
+            "linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 0.1px)",
           backgroundSize: "40px 40px",
           animation: "grid-pan 24s linear infinite",
           maskImage: "radial-gradient(60% 50% at 50% 35%, rgba(0,0,0,0.85), rgba(0,0,0,1))",
