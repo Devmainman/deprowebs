@@ -68,14 +68,21 @@ export default function Hybridhome() {
 
 
 
-<section id="markets" className="relative overflow-hidden">
-  <BackgroundFX variant="grid-pulse" speed={60} intensity={0.35} />
+<section id="markets" className="relative overflow-hidden bg-white">
+  <BackgroundFX variant="diagonal-sweep" theme="light" intensity={0.14} speed={34} />
+  <div className="relative z-30 space-y-6">
+    <MarketSummary demo theme="light" withBackground={false} />
+  </div>
+  <GridOverlay variant="dark" layer="above" density={32} speed={22} opacity={0.08} />
+</section>
+
+     <section id="how" className="relative overflow-hidden">
+  <BackgroundFX variant="radial-aurora" speed={70} intensity={0.35} />
   <div className="absolute inset-0 z-10 pointer-events-none opacity-80">
     <ShootingStars theme="dark" sky="night" meteorTint="white" density={1} meteorEvery={3000} />
   </div>
-  <div className="relative z-30 space-y-6">
-    <MarketSummary demo theme="dark" />
-    <TopMoversHeatmap />
+  <div className="relative z-30">
+    <HowItWorks theme="dark" cardGrid="soft" animatedCardGrid />
   </div>
 </section>
 
@@ -90,15 +97,7 @@ export default function Hybridhome() {
 </section>
 
 
-      <section id="how" className="relative overflow-hidden">
-  <BackgroundFX variant="radial-aurora" speed={70} intensity={0.35} />
-  <div className="absolute inset-0 z-10 pointer-events-none opacity-80">
-    <ShootingStars theme="dark" sky="night" meteorTint="white" density={1} meteorEvery={3000} />
-  </div>
-  <div className="relative z-30">
-    <HowItWorks theme="dark" cardGrid="soft" animatedCardGrid />
-  </div>
-</section>
+ 
 
 
    <section className="relative overflow-hidden">
@@ -116,13 +115,7 @@ export default function Hybridhome() {
 </section>
 
 
- <section className="relative overflow-hidden">
-  <BackgroundFX variant="radial-aurora" speed={80} intensity={0.3} />
-  <div className="relative z-30 space-y-6 py-6">
-    <EconomicCalendarLite />
-    <StrategyIdeas />
-  </div>
-</section>
+
 
 
 
@@ -137,15 +130,21 @@ export default function Hybridhome() {
           </section>
         )}
 
-       <section className="relative overflow-hidden">
-  <BackgroundFX variant="conic-orb" speed={70} intensity={0.35} />
-  <div className="absolute inset-0 z-10 pointer-events-none opacity-80">
-    <ShootingStars theme="dark" sky="night" meteorTint="white" density={1} meteorEvery={3000} />
-  </div>
-  <div className="relative z-30">
-    <ChartSection demo theme="dark" />
+
+<section className="relative overflow-hidden bg-white">
+  {/* You can rely on ChartSection’s internal BG (withBackground=true), or set withBackground={false}
+      and put <BackgroundFX ... /> here if you prefer section-level control like MarketSummary */}
+  <ChartSection theme="light" withBackground={true} />
+</section>
+
+ <section className="relative overflow-hidden">
+  <BackgroundFX variant="radial-aurora" speed={80} intensity={0.3} />
+  <div className="relative z-30 space-y-6 py-6">
+    <EconomicCalendarLite />
+    <StrategyIdeas />
   </div>
 </section>
+
 
 
        <section className="relative overflow-hidden">

@@ -169,6 +169,7 @@ export default function MarketSummary({
   // leaner default tabs
   categories = ["FX","Crypto","Indices"],
   theme = "light",    // <-- light by default
+  withBackground = true, 
 }) {
   /* Demo seed (trimmed rows for a cleaner grid) */
   const DEMO = useMemo(() => ({
@@ -218,8 +219,9 @@ export default function MarketSummary({
 
   return (
     <div className="relative">
-      {/* light animated background */}
-      <BackgroundFX variant="diagonal-sweep" theme={theme} intensity={0.12} speed={36} />
+      {withBackground && (            // <-- wrap the BG
+        <BackgroundFX variant="diagonal-sweep" theme={theme} intensity={0.12} speed={36} />
+      )}
       <div className="relative max-w-7xl mx-auto px-6 py-12">
         {/* Title row */}
         <div className="flex items-center justify-between mb-5">
