@@ -27,16 +27,22 @@ export default function Testimonials() {
         </RevealOnScroll>
       </div>
 
-      <div ref={ref} className="no-scrollbar flex gap-6 overflow-x-auto px-6" style={{ scrollBehavior: "auto" }}>
-        {base.map((t,i)=>(
-          <motion.div key={i} whileHover={{ y:-6 }}
-            className="min-w-[320px] max-w-[360px] rounded-3xl p-6 border"
-            style={{ background:"rgba(255,255,255,0.04)", borderColor:"rgba(255,255,255,0.1)" }}>
-            <p className="text-white/90 text-lg mb-4">&ldquo;{t.q}&rdquo;</p>
-            <p className="text-white/60 text-sm">— {t.a}</p>
-          </motion.div>
-        ))}
-      </div>
+     <div
+  ref={ref}
+  className="no-scrollbar flex gap-6 overflow-x-auto px-6"
+  style={{ scrollBehavior: "auto" }}
+>
+  {base.map((t,i)=>(
+    <motion.div key={i} whileHover={{ y:-6 }}
+      className="min-w-[320px] max-w-[360px] rounded-3xl p-6 border"
+      style={{ background:"rgba(255,255,255,0.04)", borderColor:"rgba(255,255,255,0.1)" }}
+    >
+      <p className="text-white/90 text-lg mb-4">&ldquo;{t.q}&rdquo;</p>
+      <p className="text-white/60 text-sm">— {t.a}</p>
+    </motion.div>
+  ))}
+</div>
+
     </section>
   );
 }

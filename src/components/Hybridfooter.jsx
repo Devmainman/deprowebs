@@ -4,11 +4,66 @@ import { motion } from "framer-motion";
 import {
   Facebook, Instagram, Youtube, Linkedin, ArrowUp, Mail, Shield, Globe
 } from "lucide-react";
+import logo from "../assets/dpw.png";
 
 const BLUE = { 900:"#00072D", 800:"#051650", 700:"#0A2472", 600:"#123499", 500:"#1A43BF" };
 const fadeUp = { hidden:{opacity:0,y:18}, show:{opacity:1,y:0,transition:{duration:.5,ease:"easeOut"}} };
 
 export default function Hybridfooter() {
+  const cols = [
+    {
+      title: "Markets",
+      links: [
+        { label: "Forex", href: "#markets-forex" },
+        { label: "Stocks", href: "#markets-stocks" },
+        { label: "Indices", href: "#markets-indices" },
+        { label: "Commodities", href: "#markets-commodities" },
+        { label: "Cryptocurrencies", href: "#markets-crypto" },
+        { label: "ETFs", href: "#markets-etfs" },
+      ],
+    },
+    {
+      title: "Trading",
+      links: [
+        { label: "CFDs", href: "#trading-cfds" },
+        { label: "Options", href: "#trading-options" },
+        { label: "Multipliers", href: "#trading-multipliers" },
+      ],
+    },
+    {
+      title: "Tools",
+      links: [
+        { label: "Trading Signals", href: "#tools-signals" },
+        { label: "Trading Calculator", href: "#tools-calculator" },
+      ],
+    },
+    {
+      title: "Platforms",
+      links: [
+        { label: "MT5", href: "#platforms-mt5" },
+        { label: "Bot Trader", href: "#platforms-bot" },
+      ],
+    },
+    {
+      title: "Company",
+      links: [
+        { label: "Who are we", href: "#about" },
+        { label: "Regulatory Information", href: "#regulatory" },
+        { label: "Payment Methods", href: "#payments" },
+        { label: "Partners", href: "#partners" },
+        { label: "Contact Us", href: "#contact" },
+      ],
+    },
+    {
+      title: "Other Pages",
+      links: [
+        { label: "Privacy and Policy", href: "#privacy" },
+        { label: "Terms and Condition", href: "#terms" },
+        { label: "Risk and Disclosure", href: "#risk" },
+      ],
+    },
+  ];
+
   return (
     <footer className="relative text-white overflow-hidden" role="contentinfo">
       {/* Top wave divider (unchanged) */}
@@ -26,18 +81,19 @@ export default function Hybridfooter() {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 pt-20">
-        {/* Brand + newsletter + link cols
-           - 2 columns on mobile, 5 on large
-           - Brand/newsletter spans 2 cols on mobile so the form stays roomy */}
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-8 md:gap-12">
+        {/* Brand + newsletter + 6 link columns
+            - Mobile: 2 columns per row
+            - Large: 8 columns total (brand spans 2, each link group spans 1) */}
+        <div className="grid grid-cols-2 lg:grid-cols-8 gap-8 md:gap-12">
+          {/* Brand / newsletter (span 2) */}
           <motion.div
             initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}
-            className="col-span-2 lg:col-span-2"
+            className="col-span-2"
           >
             <motion.div variants={fadeUp} className="flex items-center gap-3 mb-6">
-              <span className="h-display text-3xl font-bold tracking-tight" style={{ color: BLUE[500] }}>
-                deproweb
-              </span>
+              <a className="flex items-center gap-2" aria-label="deproweb">
+                <img src={logo} alt="deproweb" className="block h-10 w-auto select-none" />
+              </a>
             </motion.div>
 
             <motion.p variants={fadeUp} className="text-white/80 leading-relaxed mb-6">
@@ -78,21 +134,8 @@ export default function Hybridfooter() {
             </motion.div>
           </motion.div>
 
-          {/* Link columns — will flow as 2-up on mobile (since parent is grid-cols-2) */}
-          {[
-            {
-              title: "Trading",
-              links: ["Forex", "Stocks", "Indices", "Commodities", "Cryptos", "deprowebed Indices"],
-            },
-            {
-              title: "Platforms",
-              links: ["MT5", "DTrader", "DBot", "SmartTrader", "Mobile Apps"],
-            },
-            {
-              title: "Company",
-              links: ["About", "Careers", "Security", "Contact", "Help Centre"],
-            },
-          ].map((col) => (
+          {/* Six link groups */}
+          {cols.map((col) => (
             <motion.div
               key={col.title}
               initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}
@@ -103,13 +146,13 @@ export default function Hybridfooter() {
               </motion.h4>
               <ul className="grid grid-cols-1 gap-2">
                 {col.links.map((l) => (
-                  <motion.li key={l} variants={fadeUp}>
+                  <motion.li key={l.label} variants={fadeUp}>
                     <a
-                      href="#"
+                      href={l.href}
                       className="group inline-flex items-center gap-2 text-white/75 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400/30 rounded"
                     >
                       <span className="h-[6px] w-[6px] rounded-full bg-white/30 group-hover:bg-white transition-transform" />
-                      <span>{l}</span>
+                      <span>{l.label}</span>
                     </a>
                   </motion.li>
                 ))}
@@ -143,10 +186,10 @@ export default function Hybridfooter() {
         <div className="mt-8 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-white/60">
           <p>© {new Date().getFullYear()} deprowebsGroup. All rights reserved.</p>
           <div className="flex flex-wrap gap-6">
-            <a href="#" className="hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400/30 rounded">Privacy</a>
-            <a href="#" className="hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400/30 rounded">Terms</a>
-            <a href="#" className="hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400/30 rounded">Risk</a>
-            <a href="#" className="hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400/30 rounded">Sitemap</a>
+            <a href="#privacy" className="hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400/30 rounded">Privacy</a>
+            <a href="#terms" className="hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400/30 rounded">Terms</a>
+            <a href="#risk" className="hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400/30 rounded">Risk</a>
+            <a href="#sitemap" className="hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400/30 rounded">Sitemap</a>
           </div>
           <a href="#top" className="inline-flex items-center gap-2 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400/30 rounded">
             <ArrowUp size={16} aria-hidden /> Back to top

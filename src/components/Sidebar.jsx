@@ -1,8 +1,7 @@
-
-
+// src/Sidebar.jsx
 import React, { createContext, useContext, useEffect, useRef, useState, useCallback } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { X, Menu, LogIn, Play } from "lucide-react";
+import { X, Menu, ChevronDown, ChevronRight, LogIn } from "lucide-react";
 
 const BLUE = { 900: "#00072D", 800: "#051650", 700: "#0A2472", 600: "#123499", 500: "#1A43BF" };
 
@@ -18,8 +17,7 @@ export function SidebarProvider({ children }) {
     return () => document.removeEventListener("keydown", onEsc);
   }, [close]);
 
-  const value = { open, setOpen, toggle, close };
-  return <SidebarCtx.Provider value={value}>{children}</SidebarCtx.Provider>;
+  return <SidebarCtx.Provider value={{ open, setOpen, toggle, close }}>{children}</SidebarCtx.Provider>;
 }
 export function useSidebar(){
   const ctx = useContext(SidebarCtx);
@@ -41,13 +39,57 @@ export function SidebarTrigger({ className = "", children, ...props }) {
   );
 }
 
-export default function Sidebar({ links = defaultLinks }) {
+// ---- Sidebar with accordion submenus (only here) ----
+export default function Sidebar() {
   const { open, close } = useSidebar();
   const closeBtnRef = useRef(null);
 
-  useEffect(() => {
-    if (open) closeBtnRef.current?.focus();
-  }, [open]);
+  useEffect(() => { if (open) closeBtnRef.current?.focus(); }, [open]);
+
+  // Menu model (IDs used for accordion control)
+  const groups = [
+    {
+      id: "markets",
+      label: "Markets",
+      items: [
+        { label: "Forex", href: "#markets-forex" },
+        { label: "Stocks", href: "#markets-stocks" },
+        { label: "Indices", href: "#markets-indices" },
+        { label: "Commodities", href: "#markets-commodities" },
+        { label: "Cryptocurrencies", href: "#markets-crypto" },
+        { label: "ETFs", href: "#markets-etf" },
+      ],
+    },
+    {
+      id: "trading",
+      label: "Trading",
+      items: [
+        { label: "CFDs", href: "#trading-cfds" },
+        { label: "Options", href: "#trading-options" },
+        { label: "Multipliers", href: "#trading-multipliers" },
+      ],
+    },
+    {
+      id: "tools",
+      label: "Tools",
+      items: [
+        { label: "Trading Signals", href: "#tools-signals" },
+        { label: "Trading Calculator", href: "#tools-calculator" },
+      ],
+    },
+    {
+      id: "platforms",
+      label: "Platforms",
+      items: [
+        { label: "MT5", href: "#platforms-mt5" },
+        { label: "Bot Trader", href: "#platforms-bot" },
+      ],
+    },
+  ];
+
+  // local accordion state
+  const [openId, setOpenId] = useState(null);
+  const toggleGroup = (id) => setOpenId((cur) => (cur === id ? null : id));
 
   return (
     <AnimatePresence>
@@ -80,6 +122,7 @@ export default function Sidebar({ links = defaultLinks }) {
             exit={{ x: -420 }}
             transition={{ type: "spring", stiffness: 380, damping: 38 }}
           >
+            {/* Header */}
             <div className="flex items-center justify-between px-4 py-4 border-b" style={{ borderColor: "rgba(255,255,255,.08)" }}>
               <div className="flex items-center gap-2">
                 <span className="h-display text-xl font-bold tracking-tight" style={{ color: BLUE[500] }}>deprowebs</span>
@@ -95,25 +138,78 @@ export default function Sidebar({ links = defaultLinks }) {
               </button>
             </div>
 
-            <nav className="px-2 py-2">
-              {links.map((l) => (
-                <a
-                  key={l.href}
-                  href={l.href}
-                  onClick={close}
-                  className="group flex items-center gap-3 px-3 py-3 rounded-xl text-white/80 border mb-2"
-                  style={{
-                    borderColor: "rgba(255,255,255,.06)",
-                    background: "linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03))",
-                  }}
-                >
-                  <span className="w-7 grid place-items-center opacity-90">{l.icon}</span>
-                  <span className="font-medium">{l.label}</span>
-                  <span className="ml-auto text-[11px] text-white/50">{l.kicker}</span>
-                </a>
-              ))}
+            {/* NAV with accordion */}
+            <nav className="px-2 py-3">
+              {groups.map((g) => {
+                const expanded = openId === g.id;
+                return (
+                  <div key={g.id} className="mb-2">
+                    <button
+                      onClick={() => toggleGroup(g.id)}
+                      aria-expanded={expanded}
+                      aria-controls={`panel-${g.id}`}
+                      className="w-full group flex items-center gap-3 px-3 py-3 rounded-xl text-white/90 border"
+                      style={{
+                        borderColor: "rgba(255,255,255,.06)",
+                        background: "linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03))",
+                      }}
+                    >
+                      <span className="font-semibold">{g.label}</span>
+                      <span className="ml-auto text-white/60">
+                        {expanded ? <ChevronDown size={18}/> : <ChevronRight size={18}/>}
+                      </span>
+                    </button>
+
+                    <AnimatePresence initial={false}>
+                      {expanded && (
+                        <motion.div
+                          id={`panel-${g.id}`}
+                          role="region"
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.25, ease: "easeOut" }}
+                          className="overflow-hidden mt-1 ml-2"
+                        >
+                          <ul className="pl-1">
+                            {g.items.map((it) => (
+                              <li key={it.href} className="mt-1">
+                                <a
+                                  href={it.href}
+                                  onClick={close}
+                                  className="block px-3 py-2 rounded-lg text-white/80 hover:text-white border"
+                                  style={{
+                                    borderColor: "rgba(255,255,255,.05)",
+                                    background: "rgba(255,255,255,.03)",
+                                  }}
+                                >
+                                  {it.label}
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              })}
+
+              {/* Contact Us — single link (no submenu) */}
+              <a
+                href="#contact"
+                onClick={close}
+                className="mt-2 block px-3 py-3 rounded-xl text-white/90 border"
+                style={{
+                  borderColor: "rgba(255,255,255,.06)",
+                  background: "linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03))",
+                }}
+              >
+                Contact Us
+              </a>
             </nav>
 
+            {/* CTA footer */}
             <div className="mt-auto px-4 py-4 border-t" style={{ borderColor: "rgba(255,255,255,.08)" }}>
               <div className="flex gap-2">
                 <a
@@ -141,15 +237,3 @@ export default function Sidebar({ links = defaultLinks }) {
     </AnimatePresence>
   );
 }
-
-const defaultLinks = [
-  { label: "Markets", href: "#markets", kicker: "Forex · Crypto", icon: <Play size={16} /> },
-  { label: "Platforms", href: "#platforms", kicker: "Web · Mobile", icon: <Play size={16} /> },
-  { label: "How it works", href: "#how", kicker: "2 min", icon: <Play size={16} /> },
-  { label: "Pricing", href: "#pricing", kicker: "Transparent", icon: <Play size={16} /> },
-  { label: "Education", href: "#education", kicker: "Academy", icon: <Play size={16} /> },
-  { label: "Blog", href: "#blog", kicker: "Insights", icon: <Play size={16} /> },
-  { label: "Support", href: "#support", kicker: "24/7", icon: <Play size={16} /> },
-];
-
-

@@ -96,6 +96,17 @@ html, body {
 .card-grid-animate { animation: cardGridPan 18s linear infinite; }
 
 
+/* Hide scrollbar across browsers */
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE, Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+
+
 
 /* Utilities */
 .noise{

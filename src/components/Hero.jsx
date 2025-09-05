@@ -6,7 +6,7 @@ import React from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { ReactTyped } from "react-typed";
 import RevealOnScroll from "./RevealOnScroll";
-import { Play, TrendingUp, ShieldCheck, Zap, Globe, Activity } from "lucide-react";
+import { Play, TrendingUp, ShieldCheck, Zap, Globe, Activity, User } from "lucide-react";
 
 const BLUE = { 900: "#00072D", 800: "#051650", 700: "#0A2472", 600: "#123499", 500: "#1A43BF" };
 
@@ -124,7 +124,7 @@ export default function HeroClassicPro({
               onClick={onPrimary}
               aria-label="Open live trading account"
             >
-              Open Live Account
+              Become A Trader
             </button>
 
             <button
@@ -133,7 +133,7 @@ export default function HeroClassicPro({
               onClick={onSecondary}
               aria-label="Watch platform demo"
             >
-              <span className="inline-flex items-center gap-2"><Play size={18} /> Watch Demo</span>
+              <span className="inline-flex items-center gap-2"><User size={18} /> Sign In</span>
             </button>
           </motion.div>
 
