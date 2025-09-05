@@ -33,6 +33,16 @@
   }
 }
 
+@media (min-width: 1024px) {
+  /* Desktop: lift the FAB so it doesn't sit on top of Jivo/GetButton popups */
+  .whatsapp-fab { bottom: 112px; right: 20px; }
+}
+
+/* Small screens: leave room for mobile chat bubbles/toolbars */
+@media (max-width: 640px) {
+  .whatsapp-fab { bottom: 84px; right: 16px; }
+}
+
 .card {
   padding: 2em;
 }
