@@ -55,7 +55,7 @@ export default function Hybridfooter() {
       ],
     },
     {
-      title: "Other Pages",
+      title: "Legal",
       links: [
         { label: "Privacy and Policy", href: "#privacy" },
         { label: "Terms and Condition", href: "#terms" },

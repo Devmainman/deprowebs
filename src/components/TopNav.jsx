@@ -72,6 +72,7 @@ export default function TopNav({
   href = "#top",
   onLogin = () => {},
 }) {
+  // Subtle scroll polish
   const { scrollY } = useScroll();
   const bg = useTransform(scrollY, [0, 80], ["rgba(0,0,0,.18)", "rgba(0,0,0,.60)"]);
   const br = useTransform(scrollY, [0, 80], ["rgba(255,255,255,.10)", "rgba(255,255,255,.18)"]);
@@ -87,12 +88,12 @@ export default function TopNav({
         className="relative max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between border-b"
         style={{ borderColor: br }}
       >
-        {/* Left: Brand */}
+        {/* Left: brand */}
         <a href={href} className="flex items-center gap-2" aria-label={brand} onMouseEnter={closeAll}>
           <img src={logo} alt={brand} className="block h-10 w-auto select-none" />
         </a>
 
-        {/* Center: Desktop Nav (Deriv-like) */}
+        {/* Center nav — desktop only */}
         <nav className="hidden lg:flex items-center gap-1 relative" onMouseLeave={closeAll}>
           {NAV.map((g) => (
             <TopItem
@@ -111,12 +112,10 @@ export default function TopNav({
             onMouseEnter={closeAll}
           >
             Contact Us
-            {/* hover underline */}
-            <span className="absolute left-3 right-3 -bottom-0.5 h-[2px] bg-white/30 opacity-0 group-hover:opacity-100 transition-opacity" />
           </a>
         </nav>
 
-        {/* Right: CTA + Mobile trigger */}
+        {/* Right: CTA + mobile trigger */}
         <div className="flex items-center gap-2">
           <button
             onClick={onLogin}
@@ -126,7 +125,6 @@ export default function TopNav({
           >
             Login
           </button>
-          {/* Mobile hamburger only (desktop uses hover dropdowns) */}
           <SidebarTrigger className="p-2 rounded-lg border border-white/20 text-white lg:hidden" aria-label="Open menu" />
         </div>
       </motion.div>
@@ -134,14 +132,15 @@ export default function TopNav({
   );
 }
 
-/* ====== Desktop top-level item with Deriv-like mega dropdown ====== */
+/* ---------- Desktop Top Item with refined dropdown ---------- */
+
 function TopItem({ group, open, setOpen, close }) {
   const uid = useId();
   const btnRef = useRef(null);
 
   return (
     <div className="relative group">
-      {/* Label with slim underline on hover/focus; opens menu on hover */}
+      {/* Top label */}
       <button
         ref={btnRef}
         id={`${uid}-button`}
@@ -153,13 +152,17 @@ function TopItem({ group, open, setOpen, close }) {
                     ${open ? "text-white" : "text-white/80 hover:text-white"}`}
       >
         {group.label}
-        {/* Hover/active underline */}
+        {/* active underline */}
         <span
-          className="pointer-events-none absolute left-2 right-2 -bottom-0.5 h-[2px] rounded-full transition-all"
-          style={{ background: open ? `linear-gradient(90deg, ${BLUE[700]}, ${BLUE[500]})` : "rgba(255,255,255,.25)" , opacity: open ? 1 : 0 }}
+          className="pointer-events-none absolute left-2 right-2 -bottom-0.5 h-[2px] rounded-full transition-opacity"
+          style={{
+            background: `linear-gradient(90deg, ${BLUE[700]}, ${BLUE[500]})`,
+            opacity: open ? 1 : 0,
+          }}
         />
       </button>
 
+      {/* Dropdown */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -169,12 +172,9 @@ function TopItem({ group, open, setOpen, close }) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.98 }}
             transition={{ duration: 0.16, ease: "easeOut" }}
-            className="absolute left-1/2 -translate-x-1/2 mt-3 min-w-[340px] rounded-2xl overflow-hidden"
+            className="absolute left-1/2 -translate-x-1/2 mt-3 w-[420px] rounded-2xl overflow-hidden"
             onMouseLeave={close}
-            onBlur={(e) => {
-              // Close when tabbing out of panel
-              if (!e.currentTarget.contains(e.relatedTarget)) close();
-            }}
+            onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) close(); }}
             style={{
               border: "1px solid rgba(255,255,255,.10)",
               background: "linear-gradient(180deg, rgba(15,17,21,.92), rgba(5,12,34,.92))",
@@ -182,31 +182,46 @@ function TopItem({ group, open, setOpen, close }) {
               backdropFilter: "blur(10px)",
             }}
           >
-            {/* caret (small triangle) */}
-            <div className="absolute -top-2 left-1/2 -translate-x-1/2 h-2 w-2 rotate-45"
-                 style={{ background: "rgba(15,17,21,.92)", borderLeft: "1px solid rgba(255,255,255,.10)", borderTop: "1px solid rgba(255,255,255,.10)" }} />
+            {/* caret */}
+            <div
+              className="absolute -top-2 left-1/2 -translate-x-1/2 h-2 w-2 rotate-45"
+              style={{
+                background: "rgba(15,17,21,.92)",
+                borderLeft: "1px solid rgba(255,255,255,.10)",
+                borderTop: "1px solid rgba(255,255,255,.10)",
+              }}
+            />
+            {/* accent bar */}
+            <div className="h-1 w-full" style={{ background: `linear-gradient(90deg, ${BLUE[700]}, ${BLUE[500]})` }} />
 
-            {/* blue accent bar */}
-            <div className="h-1 w-full" style={{ background: `linear-gradient(90deg, ${BLUE[700]}, ${BLUE[500]})` }} aria-hidden />
-
-            {/* content grid (Deriv-like tidy columns) */}
-            <div className="p-4 grid gap-4 md:grid-cols-2">
+            {/* content (single column, roomy pills) */}
+            <div className="p-4">
               {group.cols.map((col, i) => (
-                <div key={i}>
-                  <div className="text-white/70 text-xs uppercase tracking-wider mb-2">{col.title}</div>
-                  <ul className="space-y-1">
+                <div key={i} className={i > 0 ? "mt-2" : ""}>
+                  <div className="text-white/70 text-xs uppercase tracking-wider mb-3">{col.title}</div>
+                  <ul className="space-y-2">
                     {col.items.map((it) => (
                       <li key={it.href}>
                         <a
                           href={it.href}
-                          className="flex items-center justify-between rounded-lg px-3 py-2 text-white/90 hover:text-white transition-colors"
+                          className="flex items-center gap-3 rounded-xl px-3 py-3 text-white/90 hover:text-white transition
+                                     ring-1 ring-white/10 hover:ring-white/20"
                           style={{
-                            border: "1px solid rgba(255,255,255,.06)",
-                            background: "linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03))",
+                            background: "linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.035))",
                           }}
                         >
-                          <span>{it.label}</span>
-                          <span className="text-[10px] uppercase tracking-wide text-white/40">Explore</span>
+                          {/* dot bullet */}
+                          <span
+                            className="h-2.5 w-2.5 rounded-full"
+                            style={{ background: `linear-gradient(135deg, ${BLUE[700]}, ${BLUE[500]})` }}
+                            aria-hidden
+                          />
+                          <span className="font-semibold">{it.label}</span>
+
+                          {/* EXPLORE tag — spaced to the right */}
+                          <span className="ml-auto text-[10px] uppercase tracking-wide text-white/55">
+                            Explore
+                          </span>
                         </a>
                       </li>
                     ))}
