@@ -1,6 +1,7 @@
 // FILE: src/pages/contact.jsx
 import React, { useMemo, useState } from "react";
 import { GlassCard, Badge, BLUE } from "./shared/ui.jsx";
+import RealMap from "../components/RealMap.jsx";
 
 export const Contact = () => {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
@@ -185,7 +186,9 @@ export const Contact = () => {
                 className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-10 w-10 rounded-full"
                 style={{ background: `radial-gradient(circle, rgba(26,67,191,.45), rgba(10,36,114,.15) 60%, transparent 70%)` }}
               />
-              <div className="absolute inset-0 grid place-items-center text-white/60 text-xs">Map placeholder</div>
+             <div className="mt-4">
+            <RealMap lat={6.5244} lng={3.3792} label="deprowebs — Lagos HQ" />
+            </div>
             </div>
 
             <div className="mt-3 text-[11px] text-white/60">

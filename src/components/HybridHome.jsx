@@ -23,6 +23,9 @@ import BackgroundFX from "./BackgroundFX";
 import Sidebar, { SidebarProvider, SidebarTrigger } from "./Sidebar";
 import TopNav from "./TopNav";
 
+import "leaflet/dist/leaflet.css";
+
+
 import {
   KPIStatsStrip,
   SessionClocks,

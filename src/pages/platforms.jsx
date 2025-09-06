@@ -1,6 +1,7 @@
 // FILE: src/pages/platforms.jsx
 import React, { useState } from "react";
 import { GlassCard, Badge, BLUE } from "./shared/ui.jsx";
+import workspacePreview from "../assets/sl_022321_41020_26.jpg";
 
 /* ===========================
    PLATFORMS — MT5 (enhanced)
@@ -107,9 +108,9 @@ export const PlatformsMT5 = () => {
         </div>
       </GlassCard>
 
-      <GlassCard title="Sample workspace" kicker={<Badge>Preview</Badge>} right="Screens">
+      <GlassCard title="Workspace" kicker={<Badge>Preview</Badge>} right="Screens">
         <div className="aspect-[16/9] w-full rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/0 grid place-items-center">
-          <div className="text-white/60">(Screenshot area / embed later)</div>
+          <img src={workspacePreview} alt="Workspace preview" className="w-full h-auto rounded-xl border border-white/10" />
         </div>
       </GlassCard>
 
