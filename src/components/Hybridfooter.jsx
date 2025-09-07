@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import {
   Facebook, Instagram, Youtube, Linkedin, ArrowUp, Mail, Shield, Globe
 } from "lucide-react";
-import logo from "../assets/dpw.png";
+import { BRAND, BrandLogo, BrandLegal } from "../brand/index.jsx";
 
 const BLUE = { 900:"#00072D", 800:"#051650", 700:"#0A2472", 600:"#123499", 500:"#1A43BF" };
 const fadeUp = { hidden:{opacity:0,y:18}, show:{opacity:1,y:0,transition:{duration:.5,ease:"easeOut"}} };
@@ -92,7 +92,7 @@ export default function Hybridfooter() {
           >
             <motion.div variants={fadeUp} className="flex items-center gap-3 mb-6">
               <a className="flex items-center gap-2" aria-label="deproweb">
-                <img src={logo} alt="deproweb" className="block h-10 w-auto select-none" />
+                <BrandLogo size={40} />
               </a>
             </motion.div>
 
@@ -184,7 +184,7 @@ export default function Hybridfooter() {
 
         {/* Bottom bar */}
         <div className="mt-8 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-white/60">
-          <p>© {new Date().getFullYear()} deprowebsGroup. All rights reserved.</p>
+          <p>© {BRAND.year} <BrandLegal />. All rights reserved.</p>
           <div className="flex flex-wrap gap-6">
             <a href="#privacy" className="hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400/30 rounded">Privacy</a>
             <a href="#terms" className="hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400/30 rounded">Terms</a>

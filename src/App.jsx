@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Hybridhome from "./components/HybridHome";
+
 import Sidebar, { SidebarProvider } from "./components/Sidebar";
 import TopNav from "./components/TopNav";
 import PageShell from "./pages/PageShell";
@@ -21,14 +22,18 @@ import {
   Contact,
 } from "./pages";
 
+import { BRAND } from "./brand/index.jsx";
+import Hybridfooter from "./components/Hybridfooter";
+
 export default function App() {
   return (
     <BrowserRouter>
       <SidebarProvider>
         <div className="min-h-screen bg-black">
-          <TopNav brand="deprowebs" />
+          <TopNav brand={BRAND.display} />
           <Routes>
             <Route path="/" element={<Hybridhome />} />
+            
 
             {/* Markets */}
             <Route
@@ -152,8 +157,10 @@ export default function App() {
               }
             />
           </Routes>
-           <Sidebar /> {/* mount once globally so the trigger always works */}
+           <Hybridfooter /> 
+           <Sidebar /> 
         </div>
+       
       </SidebarProvider>
     </BrowserRouter>
   );

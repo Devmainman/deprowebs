@@ -2,6 +2,7 @@
 import React, { useMemo, useState } from "react";
 import { GlassCard, Badge, BLUE } from "./shared/ui.jsx";
 import RealMap from "../components/RealMap.jsx";
+ import { BRAND, BrandLogo, BrandLegal, BrandEmail } from "../brand/index.jsx";
 
 export const Contact = () => {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
@@ -25,10 +26,10 @@ export const Contact = () => {
   const disabled = submitting || Object.keys(errors).length > 0;
 
   const mailtoHref = useMemo(() => {
-    const to = "support@deprowebs.com";
+    const to = BRAND.emails.support;
     const subj = encodeURIComponent(`[Contact] ${form.subject || ""}`);
     const body = encodeURIComponent(
-      `Hi deprowebs,\n\n${form.message || ""}\n\n— ${form.name || ""}\n${form.email || ""}`
+      `Hi ${BRAND.display},\n\n${form.message || ""}\n\n— ${form.name || ""}\n${form.email || ""}`
     );
     return `mailto:${to}?subject=${subj}&body=${body}`;
   }, [form]);
@@ -157,17 +158,19 @@ export const Contact = () => {
             <ul className="space-y-2 text-white/80 text-sm">
               <li className="flex items-center gap-2">
                 <span className="opacity-70 w-16">Support</span>
-                <a href="mailto:support@deprowebs.com" className="font-semibold">support@deprowebs.com</a>
-                <ActionBtn onClick={() => copy("support@deprowebs.com", "support")} label={copied === "support" ? "Copied!" : "Copy"} />
+                <BrandEmail type="support" className="font-semibold" />
+                <ActionBtn onClick={() => copy(BRAND.emails.support, "support")} label={copied === "support" ? "Copied!" : "Copy"} />
               </li>
               <li className="flex items-center gap-2">
                 <span className="opacity-70 w-16">Sales</span>
-                <a href="mailto:sales@deprowebs.com" className="font-semibold">sales@deprowebs.com</a>
-                <ActionBtn onClick={() => copy("sales@deprowebs.com", "sales")} label={copied === "sales" ? "Copied!" : "Copy"} />
+                <BrandEmail type="sales" className="font-semibold" />
+                <ActionBtn onClick={() => copy(BRAND.emails.sales, "sales")} label={copied === "sales" ? "Copied!" : "Copy"} />
               </li>
               <li className="flex items-center gap-2">
                 <span className="opacity-70 w-16">WhatsApp</span>
-                <a href="https://wa.me/2340000000" target="_blank" rel="noreferrer" className="font-semibold">+234 000 0000</a>
+                <a href={`https://wa.me/${BRAND.phones.whatsapp.replace(/[^0-9]/g,"")}`} target="_blank" rel="noreferrer" className="font-semibold">
+                {BRAND.phones.whatsapp}
+                 </a>
                 <ActionBtn onClick={() => copy("+2340000000", "wa")} label={copied === "wa" ? "Copied!" : "Copy"} />
               </li>
             </ul>

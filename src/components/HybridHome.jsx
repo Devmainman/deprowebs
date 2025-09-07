@@ -173,7 +173,7 @@ export default function Hybridhome() {
 </section>
 
 
-        <Hybridfooter />
+        
 
         {/* Mount the sidebar last so it overlays everything */}
         <Sidebar links={sidebarLinks} />
