@@ -21,6 +21,8 @@ import {
   PlatformsBot,
   Contact,
 } from "./pages";
+import Company from "./pages/Company";
+import Legal from "./pages/Legal";
 
 import { BRAND } from "./brand/index.jsx";
 import Hybridfooter from "./components/Hybridfooter";
@@ -156,6 +158,23 @@ export default function App() {
                 </PageShell>
               }
             />
+            <Route
+  path="/company"
+  element={
+    <PageShell title="Company" breadcrumb={["Company"]} theme="dark">
+      <Company />
+    </PageShell>
+  }
+/>
+
+<Route
+  path="/legal"
+  element={
+    <PageShell title="Legal" breadcrumb={["Legal"]} theme="dark">
+      <Legal />
+    </PageShell>
+  }
+/>
           </Routes>
            <Hybridfooter /> 
            <Sidebar /> 

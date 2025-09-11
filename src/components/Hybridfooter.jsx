@@ -55,20 +55,20 @@ export default function Hybridfooter() {
     {
       title: "Company",
       links: [
-        // Keep these as anchors until dedicated pages exist
-        { label: "Who are we", href: "#about" },
-        { label: "Regulatory Information", href: "#regulatory" },
-        { label: "Payment Methods", href: "#payments" },
-        { label: "Partners", href: "#partners" },
+        // now point to the /company page with section hashes
+        { label: "Who are we", to: "/company#about" },
+        { label: "Regulatory Information", to: "/company#regulatory" },
+        { label: "Payment Methods", to: "/company#payments" },
+        { label: "Partners", to: "/company#partners" },
         { label: "Contact Us", to: "/contact" },
       ],
     },
     {
       title: "Legal",
       links: [
-        { label: "Privacy and Policy", href: "#privacy" },
-        { label: "Terms and Condition", href: "#terms" },
-        { label: "Risk and Disclosure", href: "#risk" },
+        { label: "Privacy and Policy", to: "/legal#privacy" },
+        { label: "Terms and Condition", to: "/legal#terms" },
+        { label: "Risk and Disclosure", to: "/legal#risk" },
       ],
     },
   ];
@@ -206,15 +206,15 @@ export default function Hybridfooter() {
             © {BRAND.year} <BrandLegal />. All rights reserved.
           </p>
           <div className="flex flex-wrap gap-6">
-            <a href="#privacy" className="hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400/30 rounded">
+            <Link to="/legal#privacy" className="hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400/30 rounded">
               Privacy
-            </a>
-            <a href="#terms" className="hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400/30 rounded">
+            </Link>
+            <Link to="/legal#terms" className="hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400/30 rounded">
               Terms
-            </a>
-            <a href="#risk" className="hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400/30 rounded">
+            </Link>
+            <Link to="/legal#risk" className="hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400/30 rounded">
               Risk
-            </a>
+            </Link>
             <a href="#sitemap" className="hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400/30 rounded">
               Sitemap
             </a>
