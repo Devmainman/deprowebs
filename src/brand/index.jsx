@@ -1,20 +1,11 @@
-// FILE: src/brand/index.jsx
 import React from "react";
-import logo from "../assets/dpw.png"; // swap here later (one place) if you change the logo
+import logo from "../assets/dpw.png";        // logo stays separate
+import brandData from "./brand.json";       // ✅ import JSON
 
+// Clone JSON and enrich it with dynamic fields
 export const BRAND = {
-  display: "DeproWebs",          // public name
-  id: "deprowebs",               // short id/slug
-  legal: "DeproWebs Group",      // legal display
-  domain: "deprowebs.com",
+  ...brandData,
   year: new Date().getFullYear(),
-  emails: {
-    support: "support@deprowebs.com",
-    sales:   "sales@deprowebs.com",
-  },
-  phones: {
-    whatsapp: "+234 000 0000",
-  },
 };
 
 export function BrandName({ case_: c = "display", className = "" }) {
